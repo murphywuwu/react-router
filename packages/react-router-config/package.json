@@ -25,6 +25,11 @@
     "lint": "eslint modules",
     "test": "jest"
   },
+  "//": "此字段主要用于插件开发。",    
+  "//": "宿主的版本通常由用户安装决定，在用户需要使用宿主依赖的相关插件扩展该宿主功能时",
+  "//": "如果该(用户安装的)宿主依赖版本和插件指定的peerDenpendencies中的宿主版本发生冲突，则由用户自行解决",   
+  "//": "https://nodejs.org/es/blog/npm/peer-dependencies/",
+  "//": "示例:https://github.com/murphywuwu/example-npm",    
   "peerDependencies": {
     "react": ">=15",
     "react-router": "^4.3.1"
