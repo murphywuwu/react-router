@@ -22,6 +22,7 @@ class Route extends React.Component {
     location: PropTypes.object
   };
 
+  /* 定义ContextTypes */
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.object.isRequired,
@@ -29,14 +30,24 @@ class Route extends React.Component {
       staticContext: PropTypes.object
     })
   };
-
+  /*
+   * https://reactjs.org/docs/legacy-context.html?#updating-context
+   * 通过添加childContextTypes以及getChildContext给Route组件(context provider),
+   * React会自动传递信息，子树中的任何组件都可以通过定义contextTypes来访问,
+   * 如果contextTypes没有定义，context将是一个空对象
+  */
   static childContextTypes = {
     router: PropTypes.object.isRequired
   };
-
+  /* 
+   * 调用时机： state or props change
+   * 问题：如果组件提供的上下文值发生更改，则如果中间父级从shouldComponentUpdate返回false，则使用该值的后代将不会更新
+   * 解决方案: https://medium.com/@mweststrate/how-to-safely-use-react-context-b7e343eff076
+   */
   getChildContext() {
     return {
       router: {
+        // 因为已经定义了ContextTypes，所以可通过this.context对象访问
         ...this.context.router,
         route: {
           location: this.props.location || this.context.router.route.location,
@@ -64,6 +75,7 @@ class Route extends React.Component {
     const { route } = router;
     const pathname = (location || route.location).pathname;
 
+    // ⬇️ 2
     return matchPath(pathname, { path, strict, exact, sensitive }, route.match);
   }
 
@@ -104,6 +116,7 @@ class Route extends React.Component {
     );
 
     this.setState({
+      // ⬇️ 1
       match: this.computeMatch(nextProps, nextContext.router)
     });
   }

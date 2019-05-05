@@ -40,6 +40,7 @@ const matchPath = (pathname, options = {}, parent) => {
   const [url, ...values] = match;
   const isExact = pathname === url;
 
+  // exact拦截
   if (exact && !isExact) return null;
 
   return {
