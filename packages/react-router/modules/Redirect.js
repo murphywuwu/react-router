@@ -13,7 +13,16 @@ class Redirect extends React.Component {
   static propTypes = {
     computedMatch: PropTypes.object, // private, from <Switch>
     push: PropTypes.bool,
-    from: PropTypes.string,
+    /*
+     * 当Redirect设置了from字段，from被Switch组件使用并传递computedMatch对象供Redirect组件使用     * 
+     * https://github.com/ReactTraining/react-router/issues/4919
+     * <Switch>
+     *   <Redirect from='/users/:id' to='/users/profile/:id'/>
+     *   <Route path='/users/profile/:id' component={Profile}/>
+     * </Switch>
+     * />
+     */
+    from: PropTypes.string, // 用于重定向路由时，传递参数
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired
   };
 
@@ -65,10 +74,22 @@ class Redirect extends React.Component {
   }
 
   computeTo({ computedMatch, to }) {
-    if (computedMatch) {
+     // const { computedMatch, to } = this.props
+
+    if (computedMatch) { // computedMatch from <Switch>
       if (typeof to === "string") {
         return generatePath(to, computedMatch.params);
       } else {
+        /* 
+        * 当to不是字符串的时候
+        * <Redirect
+        *   to={{
+        *     pathname: 'login',
+        *     search: '?utm=your+face',
+        *     state: { referrer: currentLocation }
+        *   }}
+        * />
+        */
         return {
           ...to,
           pathname: generatePath(to.pathname, computedMatch.params)
@@ -85,6 +106,9 @@ class Redirect extends React.Component {
     const to = this.computeTo(this.props);
 
     if (push) {
+      /*
+       * <Redirect push to="/somewhere/else">
+       */
       history.push(to);
     } else {
       history.replace(to);

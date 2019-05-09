@@ -47,11 +47,11 @@ class Switch extends React.Component {
     React.Children.forEach(children, element => {
       if (match == null && React.isValidElement(element)) {
         const {
-          path: pathProp,
+          path: pathProp, // from Route, for example: <Route path="/">
           exact,
           strict,
           sensitive,
-          from
+          from // from Redirect, for example: <Redirect from="/accounts">
         } = element.props;
         const path = pathProp || from;
 
