@@ -103,7 +103,7 @@ class Route extends React.Component {
       "You should not use <Route render> and <Route children> in the same route; <Route children> will be ignored"
     );
   }
-
+  // http://www.ayqy.net/blog/%E4%BB%8Ecomponentwillreceiveprops%E8%AF%B4%E8%B5%B7/#articleHeader4
   componentWillReceiveProps(nextProps, nextContext) {
     warning(
       !(nextProps.location && !this.props.location),
