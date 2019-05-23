@@ -114,7 +114,7 @@ class Route extends React.Component {
       !(!nextProps.location && this.props.location),
       '<Route> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.'
     );
-
+    // 初始化组件后，如果Route组件是Switch组件的子组件，则每次切换路径都会从Switch重新计算computedMatch以及传入最新的location
     this.setState({
       // ⬇️ 1
       match: this.computeMatch(nextProps, nextContext.router)

@@ -63,7 +63,7 @@ class Switch extends React.Component {
         );
       }
     });
-
+    // Switch：每次更新path，都会重新计算computedMatch以及传入最新的location
     return match
       ? React.cloneElement(child, { location, computedMatch: match })
       : null;
