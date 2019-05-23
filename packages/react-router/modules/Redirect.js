@@ -43,7 +43,7 @@ class Redirect extends React.Component {
   isStatic() {
     return this.context.router && this.context.router.staticContext;
   }
-
+  // 这是在服务端渲染时，唯一调用的生命周期方法
   componentWillMount() {
     invariant(
       this.context.router,
