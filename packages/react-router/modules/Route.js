@@ -128,10 +128,60 @@ class Route extends React.Component {
     const location = this.props.location || route.location;
     const props = { match, location, history, staticContext };
 
+    /*
+     * 使用component props, 直接传入所有的数据给component
+     *   <Route path="/user/:username" component={User} />
+     *   function User({ match }) {
+     *     return <h1>Hello {match.params.username}</h1>
+     *   }
+     */
     if (component) return match ? React.createElement(component, props) : null;
 
+    /* 
+     * 使用render props,可以指定特定的数据给component
+     * <Route path="/home" render={() => <div>Home</div>}/>
+     * const FadingRoute = ({ component: Component, ...rest }) => (
+     *   <Route {...rest} render={
+     *     props => (
+     *       <FadeIn> 
+     *         <Component {...props}/>
+     *       </FadeIn>
+     *     )
+     *   }/>
+     * )
+     */
     if (render) return match ? render(props) : null;
-
+ 
+    
+    /* 
+     * 有些时候，你需要渲染一些组件，无论path是否匹配。
+     * 如果路由和match无法匹配，则match的值为null。
+     * 这允许你根据路由是否匹配动态调整UI
+     * example1:
+     * <ul>
+     *   <ListItemLink to="/somewhere"/>
+     *   <ListItemLink to="/somewhere-else"/>
+     * </ul>
+     * 
+     * const ListItemLink = ({ to, ...rest }) => (
+     *   <Route
+     *     path={to}
+     *     children=({ match }) => (
+     *       <li className={match ? 'active' : ''}>
+     *         <Link to={to} {...rest}/>
+     *       </li>
+     *    )
+     *   >
+     * example2:
+     * <Route
+     *  children={({ match, ...rest }) => (
+     *    <Animate>
+     *      { match && <Something {...rest}/> }
+     *    </Animate
+     * )}
+     * />
+     * )
+     */
     if (typeof children === "function") return children(props);
 
     if (children && !isEmptyChildren(children))
