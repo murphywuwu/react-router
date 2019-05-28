@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 /**
  * The public API for putting history on context.
+ * 监听路径变化，动态更新全局router context
  */
 class Router extends React.Component {
   static propTypes = {

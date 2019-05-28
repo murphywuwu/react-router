@@ -22,7 +22,8 @@ class Route extends React.Component {
     location: PropTypes.object
   };
 
-  /* 定义ContextTypes */
+  /* 定义CsontextTypes，通过this.context消费router对象 */
+  // 当全局router context发生变化，重渲染Route组件
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.object.isRequired,
@@ -44,6 +45,7 @@ class Route extends React.Component {
    * 问题：如果组件提供的上下文值发生更改，则如果中间父级从shouldComponentUpdate返回false，则使用该值的后代将不会更新
    * 解决方案: https://medium.com/@mweststrate/how-to-safely-use-react-context-b7e343eff076
    */
+  // Route中定义的全局router
   getChildContext() {
     return {
       router: {

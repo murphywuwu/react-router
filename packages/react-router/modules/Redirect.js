@@ -29,7 +29,8 @@ class Redirect extends React.Component {
   static defaultProps = {
     push: false
   };
-
+  
+  // 当全局router context发生变化，重渲染Redirect组件
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({

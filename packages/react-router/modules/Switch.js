@@ -8,6 +8,7 @@ import matchPath from "./matchPath";
  * The public API for rendering the first <Route> that matches.
  */
 class Switch extends React.Component {
+  // 当全局router context发生变化，重渲染Switch组件
   static contextTypes = {
     router: PropTypes.shape({
       route: PropTypes.object.isRequired
